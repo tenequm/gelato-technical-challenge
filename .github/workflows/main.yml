@@ -17,12 +17,25 @@ jobs:
         id: set_ver
         run: echo "::set-output name=GLOBAL_VERSION::${{ github.sha }}-${{ github.run_number }}-${{ github.run_attempt }}"
 
-  lint:
+  trunk-lint:
+    name: Lint repository with trunk.io
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - name: Trunk Check
         uses: trunk-io/trunk-action@v1
+
+  helm-validate:
+    name: Validate Helm Chart
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: yokawasa/action-setup-kube-tools@v0.8.2
+      - name: Validate Helm Chart
+        run: |
+          cd ops/helm/gelato-server-chart
+          helm lint .
+          helm template . | kubeval --strict -v 1.22.9 -s https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master --ignore-missing-schemas
 
   build:
     needs: [init]

@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "gelato-server.name" . }}
+  labels: 
+    {{- include "gelato-server.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicas }}
+  strategy:
+    type: "RollingUpdate"
+    rollingUpdate:
+      maxSurge: 2
+      maxUnavailable: "50%"
+  selector:
+    matchLabels:
+      {{- include "gelato-server.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "gelato-server.labels" . | nindent 8 }}
+    spec:
+      serviceAccountName: "{{ .Values.serviceAccountName | default "default" }}"
+      imagePullSecrets:
+        - name: "{{ .Values.image.pullSecretsName }}"
+      containers:
+        - name: {{ include "gelato-server.name" . }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+          - name: http
+            containerPort: {{ .Values.servicePort }}
+          resources:
+{{ toYaml .Values.resources | indent 12}}
+          env:
+          {{- range $key, $value := .Values.environments }}
+            - name: {{ $key | quote }}
+              value: {{ $value | quote}}
+          {{- end }}

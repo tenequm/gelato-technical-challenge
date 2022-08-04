@@ -1,0 +1,11 @@
+env: "test"
+hostname: 'prod.tenequm-sc.tk'
+
+environments:
+  NODE_ENV: 'production'
+  ENVIRONMENT: 'prod'
+  BLOCKCHAIN_NETWORK_NAME: 'mainnet'
+  RPC_ENDPOINT: 'https://mainnet-prod-rpc'
+  DB_HOST: 'prod-db'
+  DB_USER: '{{ ssm "/prod/DB_USER" }}'
+  DB_PASSWORD: '{{ ssm "/prod/DB_PASSWORD" }}'

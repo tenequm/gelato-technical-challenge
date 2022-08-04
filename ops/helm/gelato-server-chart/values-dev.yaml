@@ -1,0 +1,11 @@
+env: 'dev'
+hostname: 'dev.tenequm-sc.tk'
+
+environments:
+  NODE_ENV: 'production'
+  ENVIRONMENT: 'dev'
+  BLOCKCHAIN_NETWORK_NAME: 'goerli'
+  RPC_ENDPOINT: 'https://goerli-dev-rpc'
+  DB_HOST: 'dev-db'
+  DB_USER: '{{ ssm "/dev/DB_USER" }}'
+  DB_PASSWORD: '{{ ssm "/dev/DB_PASSWORD" }}'

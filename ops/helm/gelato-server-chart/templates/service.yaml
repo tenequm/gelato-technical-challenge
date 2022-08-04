@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "gelato-server.name" . }}
+  labels: {{- include "gelato-server.labels" . | nindent 4 }}
+spec:
+  type: NodePort
+  ports:
+    - port: {{ .Values.servicePort }}
+      targetPort: http
+      name: http
+  selector:
+    {{- include "gelato-server.selectorLabels" . | nindent 4 }}
