@@ -7,6 +7,16 @@ on:
     branches: [main]
 
 jobs:
+  init:
+    name: Initialise global variables
+    runs-on: ubuntu-latest
+    outputs:
+      GLOBAL_VERSION: ${{ steps.set_ver.outputs.GLOBAL_VERSION }}
+    steps:
+      - name: Set global version
+        id: set_ver
+        run: echo "::set-output name=GLOBAL_VERSION::${{ github.sha }}-${{ github.run_number }}-${{ github.run_attempt }}"
+
   lint:
     runs-on: ubuntu-latest
     steps:
@@ -15,6 +25,7 @@ jobs:
         uses: trunk-io/trunk-action@v1
 
   build:
+    needs: [init]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -31,4 +42,4 @@ jobs:
         with:
           context: app
           push: true
-          tags: ghcr.io/${{ github.repository }}:${{ github.sha }}-${{ github.run_number }}-${{ github.run_attempt }}
+          tags: ghcr.io/${{ github.repository }}:${{ needs.init.outputs.GLOBAL_VERSION }}
