@@ -1,0 +1,17 @@
+# Local .terraform directories
+**/.terraform/*
+
+# vim swp files
+*.swp
+.byebug_history
+
+# DS Store Mac
+.DS_Store
+
+# Do not include kubeconfigs created for TF EKS access on apply
+**/kubeconfig_*
+
+# Chart dependencies
+**/charts/*.tgz
+
+.vscode
