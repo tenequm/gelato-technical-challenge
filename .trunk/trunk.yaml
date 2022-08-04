@@ -9,3 +9,10 @@ lint:
     - markdownlint@0.32.1
     - prettier@2.7.1
     - tflint@0.35.0
+  ignore:
+    - linters: [prettier]
+      paths:
+        # Generated files
+        - '*.yml'
+        - '*.yaml'
+        - 'ops/**'
