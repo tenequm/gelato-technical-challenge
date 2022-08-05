@@ -20,8 +20,6 @@ spec:
         {{- include "gelato-server.labels" . | nindent 8 }}
     spec:
       serviceAccountName: "{{ .Values.serviceAccountName | default "default" }}"
-      imagePullSecrets:
-        - name: "{{ .Values.image.pullSecretsName }}"
       containers:
         - name: {{ include "gelato-server.name" . }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"

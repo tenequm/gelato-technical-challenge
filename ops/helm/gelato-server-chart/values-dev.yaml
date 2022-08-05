@@ -1,5 +1,5 @@
 env: 'dev'
-hostname: 'dev.tenequm-sc.tk'
+hostname: 'dev.pro-motion.com.ua'
 
 environments:
   NODE_ENV: 'production'
@@ -7,5 +7,5 @@ environments:
   BLOCKCHAIN_NETWORK_NAME: 'goerli'
   RPC_ENDPOINT: 'https://goerli-dev-rpc'
   DB_HOST: 'dev-db'
-  DB_USER: '{{ ssm "/dev/DB_USER" }}'
-  DB_PASSWORD: '{{ ssm "/dev/DB_PASSWORD" }}'
+  DB_USER: ref+awsssm:///dev/DB_USER?region=eu-west-3
+  DB_PASSWORD: ref+awsssm:///dev/DB_PASSWORD?region=eu-west-3

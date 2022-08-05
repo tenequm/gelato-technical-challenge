@@ -4,12 +4,10 @@ hostname: 'gelato-technical-challenge.local'
 
 # Number of replicas to spin up for deployment
 replicas: 1
-
 image:
   repository: 'ghcr.io/tenequm/gelato-technical-challenge'
   tag: '1bdddccc71b93e92dc730dfa41fd8fe0d744949e-6-1'
   pullPolicy: IfNotPresent
-  pullSecretsName: image-registry-secret
 
 # Application port
 servicePort: 8080

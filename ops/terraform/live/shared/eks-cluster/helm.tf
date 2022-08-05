@@ -54,7 +54,7 @@ resource "helm_release" "external-dns" {
   }
   set {
     name  = "domainFilters[0]"
-    value = "tenequm-sc.tk"
+    value = "pro-motion.com.ua"
   }
   set {
     name  = "txtOwnerId"

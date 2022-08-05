@@ -1,5 +1,5 @@
 env: "test"
-hostname: 'prod.tenequm-sc.tk'
+hostname: 'prod.pro-motion.com.ua'
 
 environments:
   NODE_ENV: 'production'
@@ -7,5 +7,5 @@ environments:
   BLOCKCHAIN_NETWORK_NAME: 'mainnet'
   RPC_ENDPOINT: 'https://mainnet-prod-rpc'
   DB_HOST: 'prod-db'
-  DB_USER: '{{ ssm "/prod/DB_USER" }}'
-  DB_PASSWORD: '{{ ssm "/prod/DB_PASSWORD" }}'
+  DB_USER: ref+awsssm:///prod/DB_USER?region=us-east-1
+  DB_PASSWORD: ref+awsssm:///prod/DB_PASSWORD?region=us-east-1

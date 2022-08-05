@@ -24,6 +24,11 @@ variable "vpc_name" {
   type    = string
 }
 
+variable "associated_cluster_name" {
+  default = "tenequm-sc-eks"
+  type    = string
+}
+
 module "vpc" {
   source = "terraform-aws-modules/vpc/aws"
   version = "3.14.2"
@@ -53,6 +58,6 @@ module "vpc" {
   tags = {
     Name      = var.vpc_name
     Terraform = "true"
-    "kubernetes.io/cluster/${ var.vpc_name }" = "shared"
+    "kubernetes.io/cluster/${ var.associated_cluster_name }" = "shared"
   }
 }
