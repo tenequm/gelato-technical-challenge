@@ -95,6 +95,20 @@ module "eks_cluster" {
         max_unavailable_percentage = 50 # or set `max_unavailable`
       }
     }
+    secondary_ng = {
+      name = "${var.cluster_name}-main-ng"
+
+      desired_capacity = 3
+      max_capacity     = 3
+      min_capacity     = 3
+
+      instance_types = ["t3.medium"]
+      capacity_type  = "ON_DEMAND"
+
+      update_config = {
+        max_unavailable_percentage = 50 # or set `max_unavailable`
+      }
+    }
   }
 
   # Private Key is stored in AWS Systems Manager Parameter Store 
