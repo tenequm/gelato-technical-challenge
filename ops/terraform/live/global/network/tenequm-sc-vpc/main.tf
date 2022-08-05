@@ -17,10 +17,10 @@ terraform {
   required_version = "~> 1.2.6"
 }
 
-provider "aws" { region = "us-east-1" }
+provider "aws" { region = "eu-west-3" }
 
 variable "vpc_name" {
-  default = "tenequm-sc"
+  default = "tenequm-sc-vpc"
   type    = string
 }
 
@@ -31,7 +31,7 @@ module "vpc" {
   name = var.vpc_name
   cidr = "10.0.0.0/16"
 
-  azs             = ["us-east-1a", "us-east-1b"]
+  azs             = ["eu-west-3a", "eu-west-3b"]
   private_subnets = ["10.0.0.0/18", "10.0.64.0/18"]
   public_subnets  = ["10.0.128.0/18", "10.0.192.0/18"]
 

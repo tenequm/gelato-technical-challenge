@@ -25,7 +25,7 @@ module "eks" {
   cluster_version = var.eks_cluster_version
   vpc_id          = data.aws_vpc.selected.id
   cluster_name    = var.cluster_name
-  subnets         = data.aws_subnet_ids.private.ids
+  subnets         = flatten(data.aws_subnets.private.*.ids)
 
   cluster_enabled_log_types = var.cluster_enabled_log_types
 

@@ -11,7 +11,7 @@ terraform {
 }
 
 provider "aws" {
-  region = "us-east-1"
+  region = "eu-west-3"
   assume_role { role_arn = "arn:aws:iam::835985159754:role/terraform-role" }
   default_tags { tags = { Terraform = "true" } }
 }

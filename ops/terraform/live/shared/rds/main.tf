@@ -20,18 +20,24 @@ terraform {
 data "aws_region" "current" {}
 data "aws_caller_identity" "current" {}
 provider "aws" {
-  region = "us-east-1"
+  region = "eu-west-3"
   assume_role { role_arn = "arn:aws:iam::835985159754:role/terraform-role" }
   default_tags { tags = { Terraform = "true" } }
 }
 
+locals {
+  vpc_id             = "vpc-0bdb30e027884aaf4"
+  vpc_cidr_blocks    = ["10.0.0.0/8"]
+  es_domain_name     = "tenequm-sc"
+}
 data "aws_ssm_parameter" "rds_password" { name = "RDS_POSTGRESQL_MASTER_PASSWORD" }
 
-locals {
-  vpc_id             = "vpc-0ec757f798fc5124a"
-  vpc_cidr_blocks    = ["10.0.0.0/8"]
-  private_subnet_ids = ["subnet-0f37510c464f1ffee", "subnet-0494e0ee662487e00"]
-  es_domain_name     = "tenequm-sc"
+data "aws_subnets" "private" {
+  filter {
+    name   = "vpc-id"
+    values = [local.vpc_id]
+  }
+  tags = { PrivateSubnet = true }
 }
 
 module "db_sg" {
@@ -70,7 +76,7 @@ module "db" {
   iam_database_authentication_enabled = true
 
   multi_az               = false
-  subnet_ids             = local.private_subnet_ids
+  subnet_ids             = data.aws_subnets.private.*.ids
   vpc_security_group_ids = [module.db_sg.security_group_id]
 
   # That's Mon:00:00-Mon:03:00 EST (Miami time)
