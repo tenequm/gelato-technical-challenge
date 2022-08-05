@@ -1,5 +1,5 @@
 env: "test"
-hostname: 'prod.pro-motion.com.ua'
+hostname: 'mainnet.pro-motion.com.ua'
 
 environments:
   NODE_ENV: 'production'

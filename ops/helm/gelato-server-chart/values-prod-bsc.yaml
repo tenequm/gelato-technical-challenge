@@ -1,0 +1,11 @@
+env: "test"
+hostname: 'bsc.pro-motion.com.ua'
+
+environments:
+  NODE_ENV: 'production'
+  ENVIRONMENT: 'prod'
+  BLOCKCHAIN_NETWORK_NAME: 'bsc'
+  RPC_ENDPOINT: 'https://bsc-prod-rpc'
+  DB_HOST: 'prod-db'
+  DB_USER: ref+awsssm:///prod/DB_USER?region=us-east-1
+  DB_PASSWORD: ref+awsssm:///prod/DB_PASSWORD?region=us-east-1
