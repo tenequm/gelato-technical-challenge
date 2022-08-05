@@ -130,13 +130,16 @@ jobs:
       - name: Deploy Helm release
         run: |
           helm plugin install https://github.com/jkroepke/helm-secrets --version v3.12.0
-          for f in ops/helm/gelato-server-chart/values-prod-* ; do
-            echo "Processing $f"
-            NETWORK=$(echo $f | sed 's/.*values-prod-\(.*\).yaml/\1/g')
-            helm secrets -d vals upgrade -i gelato-server-$NETWORK ops/helm/gelato-server-chart \
-              -n prod --create-namespace --wait -f $f \
-              --set image.tag=${{ needs.init.outputs.GLOBAL_VERSION }}
-          done
+
+          helm secrets -d vals upgrade -i gelato-server-bsc ops/helm/gelato-server-chart \
+            -n prod --create-namespace --wait \
+            -f ops/helm/gelato-server-chart/values-prod-bsc.yaml \
+            --set image.tag=${{ needs.init.outputs.GLOBAL_VERSION }}
+
+          helm secrets -d vals upgrade -i gelato-server-mainnet ops/helm/gelato-server-chart \
+            -n prod --create-namespace --wait \
+            -f ops/helm/gelato-server-chart/values-prod-mainnet.yaml \
+            --set image.tag=${{ needs.init.outputs.GLOBAL_VERSION }}
 
       - name: Update the GitHub Deployment status
         uses: bobheadxi/deployments@v0.6.1
@@ -146,4 +149,4 @@ jobs:
           token: ${{ github.token }}
           status: ${{ job.status }}
           deployment_id: ${{ steps.deployment.outputs.deployment_id }}
-          env_url: "https://prod.pro-motion.com.ua"
+          env_url: "https://mainnet.pro-motion.com.ua"
