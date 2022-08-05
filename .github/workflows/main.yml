@@ -58,7 +58,7 @@ jobs:
           tags: ghcr.io/${{ github.repository }}:${{ needs.init.outputs.GLOBAL_VERSION }}
 
   deploy:
-    needs: [helm-validate, trunk-lint, init]
+    needs: [helm-validate, trunk-lint, init, build]
     runs-on: ubuntu-latest
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
