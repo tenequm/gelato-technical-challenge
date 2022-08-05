@@ -96,7 +96,7 @@ module "eks_cluster" {
       }
     }
     secondary_ng = {
-      name = "${var.cluster_name}-main-ng"
+      name = "${var.cluster_name}-secondary-ng"
 
       desired_capacity = 3
       max_capacity     = 3
