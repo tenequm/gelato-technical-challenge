@@ -129,9 +129,9 @@ jobs:
 
       - name: Deploy Helm release
         run: |
+          helm plugin install https://github.com/jkroepke/helm-secrets --version v3.12.0
           for f in ops/helm/gelato-server-chart/values-prod-* ; do
           echo "Processing $f"
-            helm plugin install https://github.com/jkroepke/helm-secrets --version v3.12.0
             helm secrets -d vals upgrade -i gelato-server ops/helm/gelato-server-chart \
               -n prod --create-namespace --wait -f $f \
               --set image.tag=${{ needs.init.outputs.GLOBAL_VERSION }}
