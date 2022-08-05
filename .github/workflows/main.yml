@@ -56,3 +56,75 @@ jobs:
           context: app
           push: true
           tags: ghcr.io/${{ github.repository }}:${{ needs.init.outputs.GLOBAL_VERSION }}
+
+  deploy:
+    needs: [helm-validate, trunk-lint, init]
+    runs-on: ubuntu-latest
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: 'eu-west-3'
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Create a GitHub Deployment
+        uses: bobheadxi/deployments@v0.6.1
+        id: deployment
+        with:
+          step: start
+          token: ${{ github.token }}
+          env: dev
+          ref: ${{ github.ref }}
+          transient: 'false'
+
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
+
+      - name: Auth to EKS cluster
+        run: aws eks update-kubeconfig --name tenequm-sc-eks
+
+      - name: Deploy Helm release
+        run: |
+          # helm plugin install https://github.com/jkroepke/helm-secrets --version v3.11.0
+          helm secrets upgrade -i gelato-server ops/helm/gelato-server-chart \
+            -n dev --create-namespace --wait \
+            -f ops/helm/gelato-server-chart/values-dev.yaml \
+            --set image.tag=${{ needs.init.outputs.GLOBAL_VERSION }}
+
+      - name: Update the GitHub Deployment status
+        uses: bobheadxi/deployments@v0.6.1
+        if: always()
+        with:
+          step: finish
+          token: ${{ github.token }}
+          status: ${{ job.status }}
+          deployment_id: ${{ steps.deployment.outputs.deployment_id }}
+          env_url: "https://dev.pro-motion.com.ua"
+
+  promote_to_production:
+    needs: [init, deploy]
+    if: contains(github.head_ref, 'release-') || contains(github.head_ref, 'manual-release-')
+    runs-on: ubuntu-latest
+    environment: production
+    env:
+      KUBE_CONFIG_DATA: ${{ secrets.CREDITNINJA_PROD_KUBECONFIG }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.ORG_CN_AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.ORG_CN_AWS_SECRET_ACCESS_KEY }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Promote to production
+        run: |
+          echo ${KUBE_CONFIG_DATA} | base64 -d > kubeconfig && export KUBECONFIG="${PWD}/kubeconfig"
+          wget -O /usr/local/bin/sops "https://github.com/mozilla/sops/releases/download/v3.7.1/sops-v3.7.1.linux"
+          chmod u+x /usr/local/bin/sops
+          helm plugin install https://github.com/jkroepke/helm-secrets --version v3.11.0
+          helm secrets upgrade -i creditninja ops/creditninja \
+            -n production --create-namespace --wait \
+            -f ops/creditninja/values-production.yaml \
+            -f ops/creditninja/secrets.yaml \
+            -f ops/creditninja/secrets-production.yaml \
+            --set queueNamePrefix=mono \
+            --set webHostName=creditninja.com \
+            --set webLeadsHostName=leads2.creditninja.com \
+            --set webLeadsUIHostName=leads2ui.creditninja.com \
+            --set shaHash=${{ needs.init.outputs.GLOBAL_VERSION }}
