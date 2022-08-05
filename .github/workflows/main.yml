@@ -77,6 +77,9 @@ jobs:
           ref: ${{ github.ref }}
           transient: 'false'
 
+      - name: Vals Binary Installer
+        uses: jkroepke/setup-vals@v1
+
       - name: Setup tmate session
         uses: mxschmitt/action-tmate@v3
 
@@ -85,8 +88,8 @@ jobs:
 
       - name: Deploy Helm release
         run: |
-          # helm plugin install https://github.com/jkroepke/helm-secrets --version v3.11.0
-          helm secrets upgrade -i gelato-server ops/helm/gelato-server-chart \
+          helm plugin install https://github.com/jkroepke/helm-secrets --version v3.12.0
+          helm secrets -d vals upgrade -i gelato-server ops/helm/gelato-server-chart \
             -n dev --create-namespace --wait \
             -f ops/helm/gelato-server-chart/values-dev.yaml \
             --set image.tag=${{ needs.init.outputs.GLOBAL_VERSION }}
