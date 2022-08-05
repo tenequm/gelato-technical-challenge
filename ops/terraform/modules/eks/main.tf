@@ -74,7 +74,7 @@ resource "kubernetes_namespace" "monitoring" {
 }
 
 resource "aws_s3_bucket" "logs" {
-  bucket = "eks-loki-logs-storage"
+  bucket = "tenequm-sc-eks-loki-logs-storage"
   acl    = "private"
 
   lifecycle_rule {
