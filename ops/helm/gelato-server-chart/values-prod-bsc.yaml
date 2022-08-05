@@ -1,5 +1,6 @@
 env: "test"
 hostname: 'bsc.pro-motion.com.ua'
+nameOverride: 'gelato-server-bsc'
 
 environments:
   NODE_ENV: 'production'

@@ -1,5 +1,6 @@
 env: "test"
 hostname: 'mainnet.pro-motion.com.ua'
+nameOverride: 'gelato-server-mainnet'
 
 environments:
   NODE_ENV: 'production'
