@@ -80,9 +80,6 @@ jobs:
       - name: Vals Binary Installer
         uses: jkroepke/setup-vals@v1
 
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v3
-
       - name: Auth to EKS cluster
         run: aws eks update-kubeconfig --name tenequm-sc-eks
 
