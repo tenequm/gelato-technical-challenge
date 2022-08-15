@@ -1,4 +1,7 @@
+# Text of the technical challenge
+
 ## Scenario
+
 BlockNvision Network is a Web 3.0 gaming startup. Their idea is to partner up with Activision to enhance the Call of Duty game series to be blockchain compatible enabling players to pay in any crypto currency to receive in-game rewards.
 
 Their objective is to become the proxy between the blockchain and the COD servers by providing and managing all the relevant infrastructure to monitor on chain events and push computed data towards the Activision infrastructure.
@@ -20,36 +23,41 @@ The solution should be developer-friendly also for less DevOps skilled developer
 ![diagram2](https://media.cleanshot.cloud/media/22198/yDtpM0VFXuoDqk7CNPNjP67vJmHC6SIsZzjmCUhi.jpeg?Expires=1660595057&Signature=Jf78wzp-qcZ8Soch2mhMjz3G0eKebKGu73to6ONkANuj6fuuLznh99LDPZh9H28yCGmJ66ZWdjvoCsDKlnuxWmam1ESssTjDb4qI2iqfQM~Rg8qMGIOlkpZ~bpT8UYUstWLvbPoElAARNtwlhxB2PRmcMtxFpCBqi9f4jcLoNkBuc8KzMM-4XofhV7GXX5NceE6IvwqMcvruN0NoyXQ5NdWF-6mckiP7JPHMWrBsuvhkQxa0C1gCFXC~~WAK6c88qutLYHemQ7jQ5DcsA4cW1N0IziUxUaZYp9tl~5zMMJN0wmeVznslCyA3~Xn8vpZ5U18omqfVDx2TwN-5fBq8vQ__&Key-Pair-Id=K269JMAT9ZF4GZ)
 
 ### Prioritised items
-* Automated deployment of a single source base to multiple environments. The environment variables are the only difference (such as blockchain network name, RPC endpoint etc, database host and secrets)
-  * Security is a concern, secrets must be treated carefully
-  * The final application deployed should just echo the env variables/exposing
-them via an http endpoint
-* Infrastructure as Code
-  * Deploy a cloud Kubernetes cluster or Docker enabled VM or similar
-  * A cloud Database of your choice
-* Docker build and push images to a registry of your choice
+
+- Automated deployment of a single source base to multiple environments. The environment variables are the only difference (such as blockchain network name, RPC endpoint etc, database host and secrets)
+  - Security is a concern, secrets must be treated carefully
+  - The final application deployed should just echo the env variables/exposing
+    them via an http endpoint
+- Infrastructure as Code
+  - Deploy a cloud Kubernetes cluster or Docker enabled VM or similar
+  - A cloud Database of your choice
+- Docker build and push images to a registry of your choice
 
 ### Bonus items
-* Quality gate pipeline (Unit testing, lint checkers, Docker image scan, license checker, etc..)
-* IaC lifecycle & enhanced security
-* Logs and metrics
-* Docker Image Promotion strategy
-* Governance (e.g. Prod deployment approvals)
-* Multi-cloud support
-* Cost friendly solution
+
+- Quality gate pipeline (Unit testing, lint checkers, Docker image scan, license checker, etc..)
+- IaC lifecycle & enhanced security
+- Logs and metrics
+- Docker Image Promotion strategy
+- Governance (e.g. Prod deployment approvals)
+- Multi-cloud support
+- Cost friendly solution
 
 ### Out of scope
-* Creation of real blockchain enabled applications
-* Push service
+
+- Creation of real blockchain enabled applications
+- Push service
 
 ### The candidate can
-* Use any open source “hello world” application to simulate a working listener
-* Use a cloud provider of his/her choice (GCP, AWS, Azure, DigitalOcean..)
-* Use a cloud codebase and DevOps tool like GitHub and GitHub Actions, GitLab, Azure DevOps or similar
-* Use a mono-repository or multi-repository approach
+
+- Use any open source “hello world” application to simulate a working listener
+- Use a cloud provider of his/her choice (GCP, AWS, Azure, DigitalOcean..)
+- Use a cloud codebase and DevOps tool like GitHub and GitHub Actions, GitLab, Azure DevOps or similar
+- Use a mono-repository or multi-repository approach
 
 ### Useful resources
-* CI/CD tools: https://github.com/features/actions, https://docs.gitlab.com/ee/ci/pipelines/
-* Docker promotion strategy: https://jfrog.com/blog/docker-registry-to-production/
-* Pipeline governance: https://docs.harness.io/article/zhqccv0pff-pipeline-governance
-* IaC: https://www.redhat.com/en/topics/automation/what-is-infrastructure-as-code-iac
+
+- CI/CD tools: https://github.com/features/actions, https://docs.gitlab.com/ee/ci/pipelines/
+- Docker promotion strategy: https://jfrog.com/blog/docker-registry-to-production/
+- Pipeline governance: https://docs.harness.io/article/zhqccv0pff-pipeline-governance
+- IaC: https://www.redhat.com/en/topics/automation/what-is-infrastructure-as-code-iac
